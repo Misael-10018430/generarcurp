@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de CURP</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Para sacar tu clave de registro de población</h1>
+            <h2>Datos Personales</h2>
+        </div>
+
+        {% if resultado %}
+            {% if resultado.tipo == 'exito' %}
+                <div class="resultado-box exito">
+                    <h3>{{ resultado.mensaje }}</h3>
+                    <div class="curp-display">
+                        <span class="curp-normal">{{ resultado.curp[:16] }}</span><span class="curp-rojo">{{ resultado.curp[16:18] }}</span>
+                    </div>
+                    {% if resultado.nota %}
+                        <div class="nota">
+                            {{ resultado.nota }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="resultado-box error">
+                    <h3>ERRORES ENCONTRADOS</h3>
+                    <div class="error-text">
+                        {{ resultado.mensaje }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <form method="POST" action="/generar_curp">
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="nombre">Nombre(s):</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre(s)" value="{% if nombre %}{{ nombre }}{% endif %}" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="apellido">Primer apellido:</label>
+                    <input type="text" id="apellido" name="apellido" placeholder="Ingresa tu primer apellido" value="{% if apellido %}{{ apellido }}{% endif %}" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="segundo_apellido">Segundo apellido:</label>
+                    <input type="text" id="segundo_apellido" name="segundo_apellido" placeholder="Ingresa tu segundo apellido" value="{% if segundo_apellido %}{{ segundo_apellido }}{% endif %}" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="dia">Día de nacimiento:</label>
+                    <select id="dia" name="dia" required>
+                        <option value="">Seleccionar el día</option>
+                        {% for d in range(1, 32) %}
+                        <option value="{{ d }}" {% if dia and dia|int == d %}selected{% endif %}>{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="mes">Mes de nacimiento:</label>
+                    <select id="mes" name="mes" required>
+                        <option value="">Seleccionar el mes</option>
+                        {% for m in range(1, 13) %}
+                        <option value="{{ m }}" {% if mes and mes|int == m %}selected{% endif %}>{{ m }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="anio">Año de nacimiento:</label>
+                    <input type="number" id="anio" name="anio" placeholder="Ingresa el año Ej. 1943" min="1900" max="2025" value="{% if anio %}{{ anio }}{% endif %}" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="sexo">Sexo:</label>
+                    <select id="sexo" name="sexo" required>
+                        <option value="">Selecciona el sexo</option>
+                        <option value="H" {% if sexo == 'H' %}selected{% endif %}>HOMBRE</option>
+                        <option value="M" {% if sexo == 'M' %}selected{% endif %}>MUJER</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado" required>
+                        <option value="">Selecciona el estado</option>
+                        <option value="AS" {% if estado == 'AS' %}selected{% endif %}>AGUASCALIENTES</option>
+                        <option value="BC" {% if estado == 'BC' %}selected{% endif %}>BAJA CALIFORNIA</option>
+                        <option value="BS" {% if estado == 'BS' %}selected{% endif %}>BAJA CALIFORNIA SUR</option>
+                        <option value="CC" {% if estado == 'CC' %}selected{% endif %}>CAMPECHE</option>
+                        <option value="CL" {% if estado == 'CL' %}selected{% endif %}>COAHUILA DE ZARAGOZA</option>
+                        <option value="CM" {% if estado == 'CM' %}selected{% endif %}>COLIMA</option>
+                        <option value="CS" {% if estado == 'CS' %}selected{% endif %}>CHIAPAS</option>
+                        <option value="CH" {% if estado == 'CH' %}selected{% endif %}>CHIHUAHUA</option>
+                        <option value="DF" {% if estado == 'DF' %}selected{% endif %}>CIUDAD DE MÉXICO</option>
+                        <option value="DG" {% if estado == 'DG' %}selected{% endif %}>DURANGO</option>
+                        <option value="GT" {% if estado == 'GT' %}selected{% endif %}>GUANAJUATO</option>
+                        <option value="GR" {% if estado == 'GR' %}selected{% endif %}>GUERRERO</option>
+                        <option value="HG" {% if estado == 'HG' %}selected{% endif %}>HIDALGO</option>
+                        <option value="JC" {% if estado == 'JC' %}selected{% endif %}>JALISCO</option>
+                        <option value="MC" {% if estado == 'MC' %}selected{% endif %}>MÉXICO</option>
+                        <option value="MN" {% if estado == 'MN' %}selected{% endif %}>MICHOACÁN DE OCAMPO</option>
+                        <option value="MS" {% if estado == 'MS' %}selected{% endif %}>MORELOS</option>
+                        <option value="NT" {% if estado == 'NT' %}selected{% endif %}>NAYARIT</option>
+                        <option value="NL" {% if estado == 'NL' %}selected{% endif %}>NUEVO LEÓN</option>
+                        <option value="OC" {% if estado == 'OC' %}selected{% endif %}>OAXACA</option>
+                        <option value="PL" {% if estado == 'PL' %}selected{% endif %}>PUEBLA</option>
+                        <option value="QT" {% if estado == 'QT' %}selected{% endif %}>QUERÉTARO</option>
+                        <option value="QR" {% if estado == 'QR' %}selected{% endif %}>QUINTANA ROO</option>
+                        <option value="SP" {% if estado == 'SP' %}selected{% endif %}>SAN LUIS POTOSÍ</option>
+                        <option value="SL" {% if estado == 'SL' %}selected{% endif %}>SINALOA</option>
+                        <option value="SR" {% if estado == 'SR' %}selected{% endif %}>SONORA</option>
+                        <option value="TC" {% if estado == 'TC' %}selected{% endif %}>TABASCO</option>
+                        <option value="TS" {% if estado == 'TS' %}selected{% endif %}>TAMAULIPAS</option>
+                        <option value="TL" {% if estado == 'TL' %}selected{% endif %}>TLAXCALA</option>
+                        <option value="VZ" {% if estado == 'VZ' %}selected{% endif %}>VERACRUZ</option>
+                        <option value="YN" {% if estado == 'YN' %}selected{% endif %}>YUCATÁN</option>
+                        <option value="ZS" {% if estado == 'ZS' %}selected{% endif %}>ZACATECAS</option>
+                        <option value="NE" {% if estado == 'NE' %}selected{% endif %}>NO ESPECIFICADO</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-generar">GENERAR CURP</button>
+        </form>
+    </div>
+</body>
+</html>
