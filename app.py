@@ -23,4 +23,4 @@ def ejecutar_generar_curp():
     return render_template("index.html", resultado=resultado, nombre=nombre, apellido=apellido, 
                            segundo_apellido=segundo_apellido, dia=dia, mes=mes, anio=anio, sexo=sexo, estado=estado)
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
