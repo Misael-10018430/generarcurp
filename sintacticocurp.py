@@ -73,14 +73,23 @@ def validar_datos(nombre, apellido, segundo_apellido, dia, mes, anio, sexo, esta
         errores.append("ERROR: El campo NOMBRE es obligatorio")
     elif not nombre.replace(' ', '').isalpha():
         errores.append("ERROR LÉXICO: NOMBRE solo debe contener letras")
+    elif len(nombre.strip()) < 2:
+        errores.append("ERROR SINTÁCTICO: El NOMBRE debe tener al menos 2 caracteres")
+    
     if not apellido:
         errores.append("ERROR: El campo PRIMER APELLIDO es obligatorio")
     elif not apellido.replace(' ', '').isalpha():
         errores.append("ERROR LÉXICO: PRIMER APELLIDO solo debe contener letras")
+    elif len(apellido.strip()) < 2:
+        errores.append("ERROR SINTÁCTICO: El PRIMER APELLIDO debe tener al menos 2 caracteres")
+    
     if not segundo_apellido:
         errores.append("ERROR: El campo SEGUNDO APELLIDO es obligatorio")
     elif not segundo_apellido.replace(' ', '').isalpha():
         errores.append("ERROR LÉXICO: SEGUNDO APELLIDO solo debe contener letras")
+    elif len(segundo_apellido.strip()) < 2:
+        errores.append("ERROR SINTÁCTICO: El SEGUNDO APELLIDO debe tener al menos 2 caracteres")
+    
     if not dia:
         errores.append("ERROR: El campo DÍA DE NACIMIENTO es obligatorio")
     else:
@@ -90,6 +99,7 @@ def validar_datos(nombre, apellido, segundo_apellido, dia, mes, anio, sexo, esta
                 errores.append(f"ERROR SINTÁCTICO: DÍA inválido '{dia}'. Debe estar entre 01 y 31")
         except ValueError:
             errores.append(f"ERROR LÉXICO: DÍA '{dia}' debe ser un número")
+    
     if not mes:
         errores.append("ERROR: El campo MES DE NACIMIENTO es obligatorio")
     else:
@@ -99,6 +109,7 @@ def validar_datos(nombre, apellido, segundo_apellido, dia, mes, anio, sexo, esta
                 errores.append(f"ERROR SINTÁCTICO: MES inválido '{mes}'. Debe estar entre 01 y 12")
         except ValueError:
             errores.append(f"ERROR LÉXICO: MES '{mes}' debe ser un número")
+    
     if not anio:
         errores.append("ERROR: El campo AÑO DE NACIMIENTO es obligatorio")
     else:
@@ -108,14 +119,17 @@ def validar_datos(nombre, apellido, segundo_apellido, dia, mes, anio, sexo, esta
                 errores.append(f"ERROR SINTÁCTICO: AÑO inválido '{anio}'. Debe estar entre 1900 y 2025")
         except ValueError:
             errores.append(f"ERROR LÉXICO: AÑO '{anio}' debe ser un número")
+    
     if not sexo:
         errores.append("ERROR: El campo SEXO es obligatorio")
     elif sexo not in ['H', 'M']:
         errores.append(f"ERROR SINTÁCTICO: SEXO inválido '{sexo}'. Solo se permite 'H' (Hombre) o 'M' (Mujer)")
+    
     if not estado:
         errores.append("ERROR: El campo ESTADO es obligatorio")
     elif estado not in ESTADOS_VALIDOS:
         errores.append(f"ERROR SINTÁCTICO: ESTADO inválido '{estado}'. Debe seleccionar un estado válido del catálogo")
+    
     return errores
 
 def generar_curp_desde_formulario(nombre, apellido, segundo_apellido, dia, mes, anio, sexo, estado):
